@@ -1,35 +1,48 @@
 package com.example.backendspring;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.catalina.User;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 public class UserController {
-    private Map<Integer, UserEntity> users = new HashMap<>();
+    private final Map<Integer, UserEntity> users;
+    private final ObjectMapper objectMapper;
 
     public UserController()
     {
-        users.put(1,new UserEntity("John", 44));
+        users = new HashMap<>();
+        users.put(0,new UserEntity("John", 44));
+        users.put(1,new UserEntity("Stefan", 15));
+        objectMapper = new ObjectMapper();
     }
     @RequestMapping("/users")
     @ResponseBody
     public String users() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-//        for (Map.Entry<Integer,UserEntity> user : users.entrySet())
-//        {
-//
-//        }
         return objectMapper.writeValueAsString(users);
+    }
 
-
+    @RequestMapping("/users/{id}/get")
+    @ResponseBody
+    public String user (@PathVariable int id) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(users.get(id));
+    }
+    @RequestMapping("/users/{id}/remove")
+    public String deleteUser (@PathVariable int id) throws JsonProcessingException {
+        users.remove(id);
+        return ("User "+id+" removed!");
+    }
+    @RequestMapping("/users/add")
+    public String addUser (@RequestParam(name="name") String name, @RequestParam(name="age") int age) throws JsonProcessingException {
+        users.put(users.size(), new UserEntity(name,age));
+        return "User " + name + " with age " + age + " creted";
     }
 }
