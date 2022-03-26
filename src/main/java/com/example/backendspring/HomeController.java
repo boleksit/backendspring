@@ -3,7 +3,6 @@ package com.example.backendspring;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class HomeController {
@@ -14,9 +13,9 @@ public class HomeController {
         return "Hello World!";
     }
 
-    @RequestMapping("/test")
+    @RequestMapping("/example")
 
     public String example(){
-        return "test";
+        return "example";
     }
 }
