@@ -36,13 +36,15 @@ public class UserController {
         return objectMapper.writeValueAsString(users.get(id));
     }
     @RequestMapping("/users/{id}/remove")
-    public String deleteUser (@PathVariable int id) throws JsonProcessingException {
+    public String deleteUser (@PathVariable int id) {
         users.remove(id);
         return ("User "+id+" removed!");
     }
     @RequestMapping("/users/add")
+    @ResponseBody
     public String addUser (@RequestParam(name="name") String name, @RequestParam(name="age") int age) throws JsonProcessingException {
         users.put(users.size(), new UserEntity(name,age));
-        return "User " + name + " with age " + age + " creted";
+        UserEntity user = users.get(users.size()-1);
+        return objectMapper.writeValueAsString(user);
     }
 }
