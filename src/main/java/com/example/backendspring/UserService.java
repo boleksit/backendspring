@@ -38,4 +38,9 @@ public class UserService {
         users.put(id, user);
         return getUser(users, id);
     }
+
+    public UserEntity updateUser(Map<Integer, UserEntity> users, UserEntity user, int id) {
+        users.put(id,user);
+        return getUser(users,id);
+    }
 }

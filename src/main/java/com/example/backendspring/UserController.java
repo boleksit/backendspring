@@ -44,7 +44,7 @@ public class UserController {
     @RequestMapping("/users/add")
     public String addUser (@RequestParam(name="name") String name, @RequestParam(name="age") int age) {
         users.put(users.size(), new UserEntity(name,age));
-        return String.format("User %s with age %d creted", name, age);
+        return String.format("User %s with age %d created", name, age);
     }
 
     @RequestMapping("/api/users")
@@ -72,4 +72,18 @@ public class UserController {
     public UserEntity getUserById (@PathVariable int id) {
         return userService.getUser(users,id);
     }
+
+    @RequestMapping(
+            value = "/api/users/{id}/update",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseBody
+    public UserEntity updateUser(@RequestBody UserEntity user, @PathVariable int id) {
+
+        return userService.updateUser(users, user, id);
+    }
+
+
 }
