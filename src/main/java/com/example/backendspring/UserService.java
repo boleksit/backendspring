@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.catalina.User;
 import org.springframework.boot.jackson.JsonObjectSerializer;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpResponse;
 import java.util.Map;
 
 @Service
@@ -42,5 +44,10 @@ public class UserService {
     public UserEntity updateUser(Map<Integer, UserEntity> users, UserEntity user, int id) {
         users.put(id,user);
         return getUser(users,id);
+    }
+
+    public HttpStatus removeUser(Map<Integer, UserEntity> users, int id) {
+        users.remove(id);
+        return HttpStatus.OK;
     }
 }
