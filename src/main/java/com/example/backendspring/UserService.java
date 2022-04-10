@@ -2,6 +2,7 @@ package com.example.backendspring;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.catalina.User;
 import org.springframework.boot.jackson.JsonObjectSerializer;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +26,16 @@ public class UserService {
         return new UsersPage(pageNumber, pagesCount, pageSize, totalCount, users);
 
     }
+    public UserEntity getUser(Map<Integer,UserEntity> users, int id)
+    {
+        var resp = users.get(id);
+        resp.Id=id;
+        return resp;
+    }
 
     public UserEntity createUser(Map<Integer, UserEntity> users, UserEntity user) {
         var id = users.size();
         users.put(id, user);
-        var resp = users.get(id);
-        resp.Id=id;
-        return resp;
+        return getUser(users, id);
     }
 }

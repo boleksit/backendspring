@@ -20,8 +20,8 @@ public class UserController {
     public UserController()
     {
         users = new HashMap<>();
-        users.put(0,new UserEntity("John", 44));
-        users.put(1,new UserEntity("Stefan", 15));
+        users.put(0,new UserEntity("John", 44, 0));
+        users.put(1,new UserEntity("Stefan", 15,1));
         objectMapper = new ObjectMapper();
     }
     @RequestMapping("/users")
@@ -65,5 +65,11 @@ public class UserController {
     public UserEntity createUser(@RequestBody UserEntity user) {
 
         return userService.createUser(users, user);
+    }
+
+    @RequestMapping("/api/users/{id}")
+    @ResponseBody
+    public UserEntity getUserById (@PathVariable int id) {
+        return userService.getUser(users,id);
     }
 }
